@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.rplrus021.homebook">
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/splash_screen"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".navigation"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Register"
+            android:label="@string/splash_screen"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/splash_screen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Search"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".my_book_layout"
+            android:label="My Book"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity android:name=".activity_control" />
+        <activity
+            android:name=".book_description"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".booking"
+            android:label="Booking Book"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".search_book"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".profil_layout"
+            android:label="Profil"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".About_Us"
+            android:label="About Us"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".group_name"
+            android:label="Group Name"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".app_description"
+            android:label="Application Description"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".rate_us"
+            android:label="Rate Us"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".search_book_komik"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".search_book_novel"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".search_book_manga"
+            android:label="@string/title_activity_search_book_manga"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>

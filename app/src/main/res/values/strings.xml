@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Home Book</string>
+    <string name="splash_screen">Home Book</string>
+    <string name="title_activity_navigation">Menu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_description_book"></string>
+    <string name="title_activity_my_book_layout">my_book_layout</string>
+    <string name="title_activity_my_notifications_layout">my_notifications_layout</string>
+    <string name="title_activity_help_and_feedback_layout">help_and_feedback_layout</string>
+    <string name="title_activity_setting_layout">setting_layout</string>
+    <string name="title_activity_profil_layout">profil_layout</string>
+    <string name="title_activity_about_us">About_us</string>
+    <string name="title_activity_search_book">search_book</string>
+    <string name="title_activity_search_book_komik">search_book_komik</string>
+    <string name="title_activity_search_book_novel">search_book_novel</string>
+    <string name="title_activity_search_book_manga">search_book_manga</string>
+</resources>

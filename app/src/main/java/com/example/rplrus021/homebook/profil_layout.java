@@ -91,7 +91,7 @@ public class profil_layout extends AppCompatActivity {
     EditText imageName;
     Boolean camera = false;
     SharedPreferences sharedPreferences, sharedPreferences1;
-    String username, email;
+    String email_user, email_guest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,13 +106,13 @@ public class profil_layout extends AppCompatActivity {
         setSupportActionBar(toolbar);
         user = new userLogin();
 
-        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-        username = sharedPreferences.getString("email", "");
+        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        email_user = sharedPreferences.getString("email_user", "");
         sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
-        email = sharedPreferences1.getString("email_guest_login", "");
-        if (email == email) {
-            tv_name_profil.setText(email);
-        } else if (username == username) {
+        email_guest = sharedPreferences1.getString("email_guest_login", "");
+        if (email_guest == email_guest) {
+            tv_name_profil.setText(email_guest);
+        } else if (email_user == email_user) {
             new load_user().execute();
         }
         byteArrayOutputStream = new ByteArrayOutputStream();
@@ -249,9 +249,6 @@ public class profil_layout extends AppCompatActivity {
 
             @Override
             protected String doInBackground(Void... params) {
-                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                String username = sharedPreferences.getString("email", "");
-
                 ImageProcessClass imageProcessClass = new ImageProcessClass();
 
                 HashMap<String, String> HashMapParams = new HashMap<String, String>();
@@ -260,7 +257,7 @@ public class profil_layout extends AppCompatActivity {
 
                 HashMapParams.put(ImageName, ConvertImage);
 
-                String FinalData = imageProcessClass.ImageHttpRequest(config_url.url + "db_buku/imageUpload.php?username=" + username + "", HashMapParams);
+                String FinalData = imageProcessClass.ImageHttpRequest(config_url.url + "db_buku/imageUpload.php?username=" + email_user + "", HashMapParams);
 
                 return FinalData;
             }
@@ -377,7 +374,7 @@ public class profil_layout extends AppCompatActivity {
         protected JSONObject doInBackground(Void... params) {
             JSONObject jsonObject;
             try {
-                String url = config_url.url + "db_buku/load_image_profil.php?username=" + username + "";
+                String url = config_url.url + "db_buku/load_image_profil.php?username=" + email_user + "";
                 System.out.println("url " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

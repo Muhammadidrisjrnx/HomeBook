@@ -11,23 +11,20 @@ import android.util.Log;
 import java.util.prefs.Preferences;
 
 public class activity_control extends AppCompatActivity {
-    String name;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
         String email = sharedPreferences.getString("email_guest_login", "");
-        SharedPreferences sharedPreferences2 = getSharedPreferences("login", MODE_PRIVATE);
-        String username = sharedPreferences2.getString("email", "");
-        name = sharedPreferences2.getString("", username);
+        SharedPreferences sharedPreferences2 = getSharedPreferences("user_login", MODE_PRIVATE);
+        String username = sharedPreferences2.getString("email_user", "");
 
-        if (name == "") {
+        if (username == "") {
             Intent intent = new Intent(activity_control.this, MainActivity.class);
             startActivity(intent);
             finish();
-        } else if (name == username) {
+        } else if (username == username) {
             Intent intent = new Intent(activity_control.this, navigation.class);
             finish();
             startActivity(intent);

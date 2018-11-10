@@ -46,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
     userRegister user;
     CheckBox checkBox;
     ProgressBar loading;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences, sharedPreferences1;
+    private SharedPreferences.Editor editor, editor1;
     private TextView textView_skip;
+    private String email_user, password_user, email_guest, password_guest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +60,22 @@ public class MainActivity extends AppCompatActivity {
         btnlogin = (Button) findViewById(R.id.btnlogin);
         checkBox = (CheckBox) findViewById(R.id.checkbox);
         loading = (ProgressBar) findViewById(R.id.loading);
-        textView_skip = (TextView)findViewById(R.id.text_view_skip);
+        textView_skip = (TextView) findViewById(R.id.text_view_skip);
         user = new userRegister();
+        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
+        editor1 = sharedPreferences1.edit();
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 user.setUsername(Username.getText().toString());
                 user.setPassword(Password.getText().toString());
-                new LoginProcess().execute();
+                if (user.getUsername() == "" && user.getPassword() == "") {
+                    Toast.makeText(getApplicationContext(), "Cannot Log-in Please Insert Email and Password", Toast.LENGTH_SHORT).show();
+                } else {
+                    new LoginProcess().execute();
+                }
             }
         });
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,12 +120,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void skip_action(View view) {
-        Intent intent = new Intent(MainActivity.this,navigation.class);
-        SharedPreferences sharedPreferences = getSharedPreferences("guest_login",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("email_guest_login","GUEST");
-        editor.putString("password_guest_login","GUEST_PASSWORD");
-        editor.apply();
+        Intent intent = new Intent(MainActivity.this, navigation.class);
+        editor1.putString("email_guest_login", "GUEST");
+        editor1.putString("password_guest_login", "GUEST_PASSWORD");
+        editor1.apply();
         startActivity(intent);
         finish();
     }
@@ -125,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-        loading.setVisibility(View.VISIBLE);
-        btnlogin.setVisibility(View.INVISIBLE);
+            loading.setVisibility(View.VISIBLE);
+            btnlogin.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -135,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             try {
-                String url = config_url.url+"db_buku/aksi_masuk.php?username=" + user.getUsername() + "&password=" + user.getPassword() + "";
+                String url = config_url.url + "db_buku/aksi_masuk.php?username=" + user.getUsername() + "&password=" + user.getPassword() + "";
                 System.out.println(url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);
@@ -164,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d("hasil json ", "onPostExecute: " + jsonObject.toString());
             loading.setVisibility(View.INVISIBLE);
             btnlogin.setVisibility(View.VISIBLE);
-            if(jsonObject== null){
-                Log.e("TAG", "onnull: "+jsonObject.toString() );
+            if (jsonObject == null) {
+                Log.e("TAG", "onnull: " + jsonObject.toString());
             }
 
             if (jsonObject != null) {
@@ -177,12 +185,10 @@ public class MainActivity extends AppCompatActivity {
 
                     if (sukses.equals("true")) {
                         Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-                        preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
-                        String email = user.getUsername();
-                        String password = user.getPassword();
-                        editor = preferences.edit();
-                        editor.putString("email",email);
-                        editor.putString("password",password);
+                        email_user = user.getUsername();
+                        password_user = user.getPassword();
+                        editor.putString("email_user", email_user);
+                        editor.putString("password_user", password_user);
                         editor.apply();
                         Intent login = new Intent(MainActivity.this, navigation.class);
                         startActivity(login);

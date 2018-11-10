@@ -80,6 +80,9 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
     private final int default_data_offset = 1;
     private ambildata ambildata;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPreferences, sharedPreferences1;
+    private SharedPreferences.Editor editor, editor1;
+    private String email_user, password_user, email_guest, password_guest;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,18 +134,22 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         View hView = navigationView.getHeaderView(0);
         nav_user = (TextView) hView.findViewById(R.id.txt_profil_name);
         image_profil = (de.hdodenhof.circleimageview.CircleImageView) hView.findViewById(R.id.icon_profil);
+
         //Guest Mode or User Mode Login
 
         //guest mode
-        SharedPreferences sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
-        String username_guest_login = sharedPreferences.getString("email_guest_login", "");
-        String password_guest_login = sharedPreferences.getString("password_guest_login", "");
-        SharedPreferences sharedPreferences2 = getSharedPreferences("login", MODE_PRIVATE);
-        String username_user = sharedPreferences2.getString("email", "");
-        String password_user = sharedPreferences2.getString("password", "");
-        if (username_guest_login == username_guest_login && password_guest_login == password_guest_login) {
-            nav_user.setText(username_guest_login);
-            Toast.makeText(getApplicationContext(), username_guest_login, Toast.LENGTH_SHORT).show();
+        sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
+        email_guest = sharedPreferences.getString("email_guest_login", "");
+        password_guest = sharedPreferences.getString("password_guest_login", "");
+        //user mode
+        sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
+        email_user = sharedPreferences1.getString("email_user", "");
+        password_user = sharedPreferences1.getString("password_user", "");
+        editor = sharedPreferences.edit();
+        editor1 = sharedPreferences1.edit();
+
+        if (email_guest == email_guest && password_guest == password_guest) {
+            nav_user.setText(email_guest);
             image_profil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -152,7 +159,7 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
             });
         }
         //user mode
-        else if (username_user == username_user && password_user == password_user) {
+        else if (email_user == email_user && password_user == password_user) {
             new load_user().execute();
         }
     }
@@ -223,29 +230,24 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
             Intent i = new Intent(navigation.this, About_Us.class);
             startActivity(i);
         } else if (id == R.id.logout) {
-            SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-            String username = sharedPreferences.getString("email", "");
-            SharedPreferences sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
-            String email = sharedPreferences1.getString("email_guest_login", "");
-            if (nama == username) {
+            //user login
+
+            if (email_guest == email_guest) {
                 Intent i = new Intent(navigation.this, MainActivity.class);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
                 startActivity(i);
                 finish();
-                if (email == email) {
-                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                    editor1.clear();
-                    editor1.commit();
-                    Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
-                    startActivity(i);
-                    finish();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Logout Fails ", Toast.LENGTH_SHORT).show();
+            } else if (email_user == email_user) {
+                Intent i = new Intent(navigation.this, MainActivity.class);
+                editor1.clear();
+                editor1.commit();
+                Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
+                startActivity(i);
+                finish();
             }
+
 
         }
 

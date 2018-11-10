@@ -6,7 +6,6 @@ public class userRegister {
     private String password;
     private String alamat;
     private String telepon;
-
     public String getNama() {
         return nama;
     }

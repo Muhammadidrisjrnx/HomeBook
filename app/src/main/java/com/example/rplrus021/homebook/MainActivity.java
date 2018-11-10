@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         loading = (ProgressBar) findViewById(R.id.loading);
         textView_skip = (TextView) findViewById(R.id.text_view_skip);
         user = new userRegister();
-        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
+        sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
         editor1 = sharedPreferences1.edit();
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void skip_action(View view) {
         Intent intent = new Intent(MainActivity.this, navigation.class);
-        editor1.putString("email_guest_login", "GUEST");
-        editor1.putString("password_guest_login", "GUEST_PASSWORD");
-        editor1.apply();
+        editor.putString("email_guest_login", "GUEST");
+        editor.putString("password_guest_login", "GUEST_PASSWORD");
+        editor.apply();
         startActivity(intent);
         finish();
     }
@@ -185,11 +185,9 @@ public class MainActivity extends AppCompatActivity {
 
                     if (sukses.equals("true")) {
                         Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-                        email_user = user.getUsername();
-                        password_user = user.getPassword();
-                        editor.putString("email_user", email_user);
-                        editor.putString("password_user", password_user);
-                        editor.apply();
+                        editor1.putString("email_user", user.getUsername());
+                        editor1.putString("password_user", user.getPassword());
+                        editor1.apply();
                         Intent login = new Intent(MainActivity.this, navigation.class);
                         startActivity(login);
                         finish();

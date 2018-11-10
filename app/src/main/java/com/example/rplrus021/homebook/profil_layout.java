@@ -105,11 +105,10 @@ public class profil_layout extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         user = new userLogin();
-
-        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
-        email_user = sharedPreferences.getString("email_user", "");
-        sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
-        email_guest = sharedPreferences1.getString("email_guest_login", "");
+        sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
+        email_user = sharedPreferences.getString("email_guest_login", "");
+        sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
+        email_guest = sharedPreferences1.getString("email_user_login", "");
         if (email_guest == email_guest) {
             tv_name_profil.setText(email_guest);
         } else if (email_user == email_user) {

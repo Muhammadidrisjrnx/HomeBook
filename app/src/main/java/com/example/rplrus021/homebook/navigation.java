@@ -141,11 +141,11 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
         email_guest = sharedPreferences.getString("email_guest_login", "");
         password_guest = sharedPreferences.getString("password_guest_login", "");
+        editor = sharedPreferences.edit();
         //user mode
         sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
-        email_user = sharedPreferences1.getString("email_user", "");
-        password_user = sharedPreferences1.getString("password_user", "");
-        editor = sharedPreferences.edit();
+        email_user = sharedPreferences1.getString("email_user_login", "");
+        password_user = sharedPreferences1.getString("password_user_login", "");
         editor1 = sharedPreferences1.edit();
 
         if (email_guest == email_guest && password_guest == password_guest) {
@@ -160,6 +160,7 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         }
         //user mode
         else if (email_user == email_user && password_user == password_user) {
+            Toast.makeText(getApplicationContext(),email_user,Toast.LENGTH_SHORT).show();
             new load_user().execute();
         }
     }
@@ -349,81 +350,7 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         protected JSONObject doInBackground(Void... params) {
             JSONObject jsonObject;
             try {
-                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                String username = sharedPreferences.getString("email", "");
-                String url = config_url.url + "db_buku/load_image_profil.php?username=" + username + "";
-                System.out.println("url " + url);
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(url);
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                InputStream inputStream = httpEntity.getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        inputStream, "iso-8859-1"
-                ), 8);
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
-                }
-                inputStream.close();
-                String json = stringBuilder.toString();
-                jsonObject = new JSONObject(json);
-            } catch (Exception e) {
-                jsonObject = null;
-            }
-            return jsonObject;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            Log.d("hasil json ", "onPostExecute: " + jsonObject.toString());
-            try {
-                JSONArray hasiljson = jsonObject.getJSONArray("Result");
-                userlogin = new ArrayList<userLogin>();
-                for (int i = 0; i < hasiljson.length(); i++) {
-                    user = new userLogin();
-                    user.setUsername(hasiljson.getJSONObject(i).getString("username"));
-                    user.setNama(hasiljson.getJSONObject(i).getString("nama"));
-                    user.setGambar(hasiljson.getJSONObject(i).getString("image_path"));
-                    userlogin.add(user);
-                    nav_user.setText(user.getNama());
-                    Glide.with(getApplicationContext())
-                            .load(config_url.url3 + user.getGambar())
-                            .placeholder(R.drawable.profil)
-                            .into(image_profil);
-                    System.out.println("url image " + config_url.url3 + user.getGambar());
-                    image_profil.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getApplicationContext(), profil_layout.class);
-                            startActivityForResult(intent, 1);
-                        }
-                    });
-
-                }
-            } catch (Exception e) {
-                Log.d("errorku ", "onPostExecute: " + e.toString());
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public class load_guest extends AsyncTask<Void, Void, JSONObject> {
-
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected JSONObject doInBackground(Void... params) {
-            JSONObject jsonObject;
-            try {
-                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                String username = sharedPreferences.getString("email", "");
-                String url = config_url.url + "db_buku/load_image_profil.php?username=" + username + "";
+                String url = config_url.url + "db_buku/load_image_profil.php?username=" + email_user + "";
                 System.out.println("url " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

@@ -18,7 +18,7 @@ public class activity_control extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
         String email = sharedPreferences.getString("email_guest_login", "");
         SharedPreferences sharedPreferences2 = getSharedPreferences("user_login", MODE_PRIVATE);
-        String username = sharedPreferences2.getString("email_user", "");
+        String username = sharedPreferences2.getString("email_user_login", "");
 
         if (username == "") {
             Intent intent = new Intent(activity_control.this, MainActivity.class);
@@ -29,12 +29,11 @@ public class activity_control extends AppCompatActivity {
             finish();
             startActivity(intent);
         }
-
         if (email == "") {
             Intent intent = new Intent(activity_control.this, MainActivity.class);
             startActivity(intent);
             finish();
-        }else if (email == email){
+        } else if (email == email) {
             Intent intent = new Intent(activity_control.this, navigation.class);
             finish();
             startActivity(intent);

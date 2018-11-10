@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("password_guest_login","GUEST_PASSWORD");
         editor.apply();
         startActivity(intent);
+        finish();
     }
 
     @SuppressLint("StaticFieldLeak")

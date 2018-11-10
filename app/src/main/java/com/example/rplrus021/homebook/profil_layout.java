@@ -65,7 +65,7 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class profil_layout extends AppCompatActivity {
-    ArrayList<userLogin>userlogin;
+    ArrayList<userLogin> userlogin;
     userLogin user;
     TextView tv_name_profil;
     private de.hdodenhof.circleimageview.CircleImageView iv_image_profil;
@@ -88,9 +88,10 @@ public class profil_layout extends AppCompatActivity {
     StringBuilder stringBuilder;
     boolean check = true;
     private int GALLERY = 1, CAMERA = 2;
-    String username;
     EditText imageName;
     Boolean camera = false;
+    SharedPreferences sharedPreferences, sharedPreferences1;
+    String username, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,16 @@ public class profil_layout extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         user = new userLogin();
-        new load_user().execute();
+
+        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        username = sharedPreferences.getString("email", "");
+        sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
+        email = sharedPreferences1.getString("email_guest_login", "");
+        if (email == email) {
+            tv_name_profil.setText(email);
+        } else if (username == username) {
+            new load_user().execute();
+        }
         byteArrayOutputStream = new ByteArrayOutputStream();
         buttonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,8 +128,8 @@ public class profil_layout extends AppCompatActivity {
 
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent();
-        intent.putExtra("image_profil",config_url.url3 + user.getGambar());
-        setResult(Activity.RESULT_OK,intent);
+        intent.putExtra("image_profil", config_url.url3 + user.getGambar());
+        setResult(Activity.RESULT_OK, intent);
         finish();
         return true;
     }
@@ -367,9 +377,7 @@ public class profil_layout extends AppCompatActivity {
         protected JSONObject doInBackground(Void... params) {
             JSONObject jsonObject;
             try {
-                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                String username = sharedPreferences.getString("email", "");
-                String url = config_url.url+"db_buku/load_image_profil.php?username=" + username + "";
+                String url = config_url.url + "db_buku/load_image_profil.php?username=" + username + "";
                 System.out.println("url " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

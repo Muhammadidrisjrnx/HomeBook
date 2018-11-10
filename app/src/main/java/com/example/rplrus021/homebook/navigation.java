@@ -136,22 +136,23 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         //guest mode
         SharedPreferences sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
         String username_guest_login = sharedPreferences.getString("email_guest_login", "");
-        String password_guset_login = sharedPreferences.getString("password_guest_login", "");
-        if (username_guest_login == username_guest_login && password_guset_login == password_guset_login) {
+        String password_guest_login = sharedPreferences.getString("password_guest_login", "");
+        SharedPreferences sharedPreferences2 = getSharedPreferences("login", MODE_PRIVATE);
+        String username_user = sharedPreferences2.getString("email", "");
+        String password_user = sharedPreferences2.getString("password", "");
+        if (username_guest_login == username_guest_login && password_guest_login == password_guest_login) {
             nav_user.setText(username_guest_login);
+            Toast.makeText(getApplicationContext(), username_guest_login, Toast.LENGTH_SHORT).show();
             image_profil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(navigation.this,profil_layout.class);
-                    startActivity(intent);
+                    Intent intent = new Intent(navigation.this, profil_layout.class);
+                    startActivityForResult(intent, 1);
                 }
             });
         }
         //user mode
-        SharedPreferences sharedPreferences2 = getSharedPreferences("login", MODE_PRIVATE);
-        String username_user = sharedPreferences2.getString("email", "");
-        String password_user = sharedPreferences2.getString("password", "");
-        if (username_user == username_user && password_user == password_user) {
+        else if (username_user == username_user && password_user == password_user) {
             new load_user().execute();
         }
     }
@@ -224,16 +225,24 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
             String username = sharedPreferences.getString("email", "");
-            Log.d("nama ", "onNavigationItemSelected: " + username);
+            SharedPreferences sharedPreferences1 = getSharedPreferences("guest_login", MODE_PRIVATE);
+            String email = sharedPreferences1.getString("email_guest_login", "");
             if (nama == username) {
                 Intent i = new Intent(navigation.this, MainActivity.class);
-//                new LogoutProcess().execute();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
                 startActivity(i);
                 finish();
+                if (email == email) {
+                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                    editor1.clear();
+                    editor1.commit();
+                    Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
+                    startActivity(i);
+                    finish();
+                }
             } else {
                 Toast.makeText(getApplicationContext(), "Logout Fails ", Toast.LENGTH_SHORT).show();
             }

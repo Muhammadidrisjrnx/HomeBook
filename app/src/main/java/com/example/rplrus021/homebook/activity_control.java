@@ -17,29 +17,30 @@ public class activity_control extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email_guest_login", "");
         SharedPreferences sharedPreferences2 = getSharedPreferences("login", MODE_PRIVATE);
         String username = sharedPreferences2.getString("email", "");
-        Log.d("nama ", "onCreate: " + username);
-        name = sharedPreferences.getString("",username);
-        Log.d("nama ", "onCreate: "+name);
-            if (name == "") {
-                Intent intent = new Intent(activity_control.this, MainActivity.class);
-                editor.putString("isLogged", username);
-                editor.commit();
-                startActivity(intent);
-                finish();
-            } else if (name == username){
-                Intent intent = new Intent(activity_control.this, navigation.class);
-                finish();
-                startActivity(intent);
-            }else{
-                Intent intent = new Intent(activity_control.this, navigation.class);
-                finish();
-                startActivity(intent);
-            }
+        name = sharedPreferences2.getString("", username);
 
+        if (name == "") {
+            Intent intent = new Intent(activity_control.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (name == username) {
+            Intent intent = new Intent(activity_control.this, navigation.class);
+            finish();
+            startActivity(intent);
+        }
+
+        if (email == "") {
+            Intent intent = new Intent(activity_control.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (email == email){
+            Intent intent = new Intent(activity_control.this, navigation.class);
+            finish();
+            startActivity(intent);
+        }
     }
 }

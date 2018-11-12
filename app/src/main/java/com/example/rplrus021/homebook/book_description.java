@@ -35,12 +35,12 @@ import java.util.ArrayList;
 
 public class book_description extends AppCompatActivity {
     public ArrayList<buku> homebook = new ArrayList<>();
-    String id_buku, judul_buku, gambar, deskripsi, email, email_guest,status;
+    String id_buku, judul_buku, gambar, deskripsi, email, email_guest;
     Bundle bundle;
     Button btn_booking;
     LinearLayout linearLayout_book_description;
     SharedPreferences sharedPreferences, sharedPreferences1;
-
+    int status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +67,10 @@ public class book_description extends AppCompatActivity {
         descriptionbar.setText(judul_buku);
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
-        status = sharedPreferences.getString("status","");
-        if (status == "2") {
+        status = sharedPreferences.getInt("status",0);
+        if (status == 2) {
             btn_booking.setVisibility(View.GONE);
-        }else if (status == "1") {
+        }else if (status == 1) {
             btn_booking.setVisibility(View.VISIBLE);
         }
         //     new ambildata().execute();

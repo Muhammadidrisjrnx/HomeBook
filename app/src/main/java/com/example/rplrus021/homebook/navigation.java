@@ -82,7 +82,8 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences, sharedPreferences1;
     private SharedPreferences.Editor editor, editor1;
-    private String email, password,status;
+    private String email, password;
+    private int status;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
@@ -139,17 +140,17 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         //guest mode
         sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
         email = sharedPreferences.getString("email", "");
-        status = sharedPreferences.getString("status","");
+        status = sharedPreferences.getInt("status",0);
         editor = sharedPreferences.edit();
         //user mode
 
 
         //user mode
-        if (status == "1") {
+        if (status == 1) {
             Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
             new load_user().execute();
         }
-        else if (status == "2") {
+        else if (status == 2) {
             nav_user.setText(email);
             Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
             image_profil.setOnClickListener(new View.OnClickListener() {
@@ -230,14 +231,14 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.logout) {
             //user login
 
-            if (status == "1") {
+            if (status == 1) {
                 Intent i = new Intent(navigation.this, MainActivity.class);
                 editor.clear();
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
                 startActivity(i);
                 finish();
-            } else if (status == "2") {
+            } else if (status == 2) {
                 Intent i = new Intent(navigation.this, MainActivity.class);
                 editor.clear();
                 editor.commit();

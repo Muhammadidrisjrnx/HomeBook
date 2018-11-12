@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, navigation.class);
         editor.putString("email", "GUEST");
         editor.putString("password", "GUEST_PASSWORD");
-        editor.putString("status","2");
+        editor.putInt("status",2);
         editor.apply();
         startActivity(intent);
         finish();
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
                         editor.putString("email", user.getUsername());
                         editor.putString("password", user.getPassword());
-                        editor.putString("status","1");
+                        editor.putInt("status",1);
                         editor.apply();
                         Intent login = new Intent(MainActivity.this, navigation.class);
                         startActivity(login);

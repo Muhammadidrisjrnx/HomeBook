@@ -51,7 +51,8 @@ public class my_book_layout extends AppCompatActivity {
     TextView judul_buku;
     private SwipeRefreshLayout swipeRefreshLayout;
     private view_my_book view_my_book;
-
+    private SharedPreferences sharedPreferences;
+    private String username,status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +63,19 @@ public class my_book_layout extends AppCompatActivity {
         linier_layout_my_book = (LinearLayout) findViewById(R.id.linier_layout_my_book);
         linier_layout_my_book_load = (LinearLayout) findViewById(R.id.linier_layout_my_book_load);
         setSupportActionBar(toolbar);
+        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        username = sharedPreferences.getString("email", "");
+        status = sharedPreferences.getString("status","");
         this.registerForContextMenu(gv_buku_my_book);
-        view_my_book = new view_my_book();
-        view_my_book.execute();
-        layoutInflater = getLayoutInflater();
-        myLayout = layoutInflater.inflate(R.layout.row_item3, null);
-        judul_buku = (TextView) myLayout.findViewById(R.id.tv_judul_my_book);
+        if (status == "1"){
+            view_my_book = new view_my_book();
+            view_my_book.execute();
+            layoutInflater = getLayoutInflater();
+            myLayout = layoutInflater.inflate(R.layout.row_item3, null);
+            judul_buku = (TextView) myLayout.findViewById(R.id.tv_judul_my_book);
+        }else if (status == "2"){
+
+        }
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -100,8 +108,6 @@ public class my_book_layout extends AppCompatActivity {
             JSONObject jsonObject;
 
             try {
-                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                String username = sharedPreferences.getString("email", "");
                 String url = config_url.url + "db_buku/get_data_my_book.php?username=" + username + "";
                 System.out.println("url " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();

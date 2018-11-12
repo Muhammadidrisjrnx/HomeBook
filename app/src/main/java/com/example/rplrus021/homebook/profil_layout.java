@@ -91,7 +91,7 @@ public class profil_layout extends AppCompatActivity {
     EditText imageName;
     Boolean camera = false;
     SharedPreferences sharedPreferences, sharedPreferences1;
-    String email_user, email_guest;
+    String email,status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +105,13 @@ public class profil_layout extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         user = new userLogin();
-        sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
-        email_user = sharedPreferences.getString("email_guest_login", "");
-        sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
-        email_guest = sharedPreferences1.getString("email_user_login", "");
-        if (email_guest == email_guest) {
-            tv_name_profil.setText(email_guest);
-        } else if (email_user == email_user) {
+        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        email = sharedPreferences.getString("email", "");
+        status = sharedPreferences.getString("status","");
+        if (status == "2") {
+            tv_name_profil.setText(email);
+        }
+        else if (status == "1") {
             new load_user().execute();
         }
         byteArrayOutputStream = new ByteArrayOutputStream();
@@ -256,7 +256,7 @@ public class profil_layout extends AppCompatActivity {
 
                 HashMapParams.put(ImageName, ConvertImage);
 
-                String FinalData = imageProcessClass.ImageHttpRequest(config_url.url + "db_buku/imageUpload.php?username=" + email_user + "", HashMapParams);
+                String FinalData = imageProcessClass.ImageHttpRequest(config_url.url + "db_buku/imageUpload.php?username=" + email + "", HashMapParams);
 
                 return FinalData;
             }
@@ -373,7 +373,7 @@ public class profil_layout extends AppCompatActivity {
         protected JSONObject doInBackground(Void... params) {
             JSONObject jsonObject;
             try {
-                String url = config_url.url + "db_buku/load_image_profil.php?username=" + email_user + "";
+                String url = config_url.url + "db_buku/load_image_profil.php?username=" + email + "";
                 System.out.println("url " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

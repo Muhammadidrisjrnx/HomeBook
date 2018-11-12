@@ -15,28 +15,22 @@ public class activity_control extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
-        String email = sharedPreferences.getString("email_guest_login", "");
-        SharedPreferences sharedPreferences2 = getSharedPreferences("user_login", MODE_PRIVATE);
-        String username = sharedPreferences2.getString("email_user_login", "");
-
-        if (username == "") {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        String status = sharedPreferences.getString("status","");
+        if (status == "") {
             Intent intent = new Intent(activity_control.this, MainActivity.class);
             startActivity(intent);
             finish();
-        } else if (username == username) {
+        } else if (status == "1") {
             Intent intent = new Intent(activity_control.this, navigation.class);
-            finish();
             startActivity(intent);
+            finish();
         }
-        if (email == "") {
-            Intent intent = new Intent(activity_control.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (email == email) {
+        else if (status == "2") {
             Intent intent = new Intent(activity_control.this, navigation.class);
-            finish();
             startActivity(intent);
+            finish();
         }
     }
 }

@@ -82,8 +82,7 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences, sharedPreferences1;
     private SharedPreferences.Editor editor, editor1;
-    private String email_user, password_user, email_guest, password_guest;
-
+    private String email, password,status;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
@@ -138,18 +137,21 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         //Guest Mode or User Mode Login
 
         //guest mode
-        sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
-        email_guest = sharedPreferences.getString("email_guest_login", "");
-        password_guest = sharedPreferences.getString("password_guest_login", "");
+        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
+        email = sharedPreferences.getString("email", "");
+        status = sharedPreferences.getString("status","");
         editor = sharedPreferences.edit();
         //user mode
-        sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
-        email_user = sharedPreferences1.getString("email_user_login", "");
-        password_user = sharedPreferences1.getString("password_user_login", "");
-        editor1 = sharedPreferences1.edit();
 
-        if (email_guest == email_guest && password_guest == password_guest) {
-            nav_user.setText(email_guest);
+
+        //user mode
+        if (status == "1") {
+            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
+            new load_user().execute();
+        }
+        else if (status == "2") {
+            nav_user.setText(email);
+            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
             image_profil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -157,11 +159,6 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
                     startActivityForResult(intent, 1);
                 }
             });
-        }
-        //user mode
-        else if (email_user == email_user && password_user == password_user) {
-            Toast.makeText(getApplicationContext(),email_user,Toast.LENGTH_SHORT).show();
-            new load_user().execute();
         }
     }
 
@@ -233,17 +230,17 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.logout) {
             //user login
 
-            if (email_guest == email_guest) {
+            if (status == "1") {
                 Intent i = new Intent(navigation.this, MainActivity.class);
                 editor.clear();
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
                 startActivity(i);
                 finish();
-            } else if (email_user == email_user) {
+            } else if (status == "2") {
                 Intent i = new Intent(navigation.this, MainActivity.class);
-                editor1.clear();
-                editor1.commit();
+                editor.clear();
+                editor.commit();
                 Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
                 startActivity(i);
                 finish();
@@ -350,7 +347,7 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         protected JSONObject doInBackground(Void... params) {
             JSONObject jsonObject;
             try {
-                String url = config_url.url + "db_buku/load_image_profil.php?username=" + email_user + "";
+                String url = config_url.url + "db_buku/load_image_profil.php?username=" + email + "";
                 System.out.println("url " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

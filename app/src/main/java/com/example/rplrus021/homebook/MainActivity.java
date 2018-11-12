@@ -62,16 +62,14 @@ public class MainActivity extends AppCompatActivity {
         loading = (ProgressBar) findViewById(R.id.loading);
         textView_skip = (TextView) findViewById(R.id.text_view_skip);
         user = new userRegister();
-        sharedPreferences = getSharedPreferences("guest_login", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        sharedPreferences1 = getSharedPreferences("user_login", MODE_PRIVATE);
-        editor1 = sharedPreferences1.edit();
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 user.setUsername(Username.getText().toString());
                 user.setPassword(Password.getText().toString());
-                if (user.getUsername() == "" && user.getPassword() == "") {
+                if (user.getUsername().isEmpty() && user.getPassword().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Cannot Log-in Please Insert Email and Password", Toast.LENGTH_SHORT).show();
                 } else {
                     new LoginProcess().execute();
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                    navigation.this.finish();
                 finish();
                 moveTaskToBack(true);
                 MainActivity.this.finish();
@@ -121,8 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void skip_action(View view) {
         Intent intent = new Intent(MainActivity.this, navigation.class);
-        editor.putString("email_guest_login", "GUEST");
-        editor.putString("password_guest_login", "GUEST_PASSWORD");
+        editor.putString("email", "GUEST");
+        editor.putString("password", "GUEST_PASSWORD");
+        editor.putString("status","2");
         editor.apply();
         startActivity(intent);
         finish();
@@ -185,9 +183,10 @@ public class MainActivity extends AppCompatActivity {
 
                     if (sukses.equals("true")) {
                         Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-                        editor1.putString("email_user", user.getUsername());
-                        editor1.putString("password_user", user.getPassword());
-                        editor1.apply();
+                        editor.putString("email", user.getUsername());
+                        editor.putString("password", user.getPassword());
+                        editor.putString("status","1");
+                        editor.apply();
                         Intent login = new Intent(MainActivity.this, navigation.class);
                         startActivity(login);
                         finish();

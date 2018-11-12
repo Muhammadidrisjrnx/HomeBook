@@ -84,6 +84,7 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
     private SharedPreferences.Editor editor, editor1;
     private String email, password;
     private int status;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
@@ -140,26 +141,25 @@ public class navigation extends AppCompatActivity implements NavigationView.OnNa
         //guest mode
         sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
         email = sharedPreferences.getString("email", "");
-        status = sharedPreferences.getInt("status",0);
+        status = sharedPreferences.getInt("status", 0);
         editor = sharedPreferences.edit();
         //user mode
 
 
         //user mode
         if (status == 1) {
-            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), email, Toast.LENGTH_SHORT).show();
             new load_user().execute();
-        }
-        else if (status == 2) {
+        } else if (status == 2) {
             nav_user.setText(email);
-            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
-            image_profil.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(navigation.this, profil_layout.class);
-                    startActivityForResult(intent, 1);
-                }
-            });
+            Toast.makeText(getApplicationContext(), email, Toast.LENGTH_SHORT).show();
+//            image_profil.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(navigation.this, profil_layout.class);
+//                    startActivityForResult(intent, 1);
+//                }
+//            });
         }
     }
 

@@ -91,8 +91,8 @@ public class profil_layout extends AppCompatActivity {
     EditText imageName;
     Boolean camera = false;
     SharedPreferences sharedPreferences, sharedPreferences1;
-    String email,status;
-
+    String email;
+    int status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,11 +107,11 @@ public class profil_layout extends AppCompatActivity {
         user = new userLogin();
         sharedPreferences = getSharedPreferences("user_login", MODE_PRIVATE);
         email = sharedPreferences.getString("email", "");
-        status = sharedPreferences.getString("status","");
-        if (status == "2") {
+        status = sharedPreferences.getInt("status",0);
+        if (status == 2) {
             tv_name_profil.setText(email);
         }
-        else if (status == "1") {
+        else if (status == 1) {
             new load_user().execute();
         }
         byteArrayOutputStream = new ByteArrayOutputStream();
